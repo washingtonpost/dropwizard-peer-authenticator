@@ -17,16 +17,15 @@ import jersey.repackaged.com.google.common.base.Preconditions;
 
 /**
  * <p>Container for configuration, in the "config + factory" pattern that DropWizard likes</p>
- * <p>This configuration can behave in a couple different ways, depending on what properties are set:
+ * <p>This configuration can behave in a couple different ways, depending on what properties are set:</p>
  * <ol>
  *   <li>If a "credentialFile" is specified (i.e. non-null), the usernames and passwords of the allowed peers will be read
  * from that file</li>
  *   <li>If instead the "users" and "passwords" strings are specified (i.e. non-null), then those strings are split up
  * with whatever value is specified by the "delimited" property and the token (user, password)s are used as the list of
- * allowed peers.  <br/> By default, the delimiter is ";", so if {@code users="bob;alice"} and {@code passwords="foo;bar"} then
+ * allowed peers.  By default, the delimiter is ";", so if {@code users="bob;alice"} and {@code passwords="foo;bar"} then
  * the list of allowed peers would contain "user bob with password foo" and "user alice with password bar"</li>
  * </ol>
- * </p>
  * <p>If a cachePolicy is set, then the Authenticator that is registered with Jersey upon calling {@code registerAuthenticator}
  * will be a CachingAuthenticator.  Otherwise, it'll be an instance of {@code AllowedPeerAuthenticator}</p>
  */

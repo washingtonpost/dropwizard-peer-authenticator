@@ -22,7 +22,7 @@ public class StringPeerDAO implements PeerDAO {
     /**
      * @param users A string containing one or more usernames
      * @param passwords A string containing as many passwords as there are users
-     * @param delimiter The delimiter string for both {@code users} and {@passwords}
+     * @param delimiter The delimiter string for both {@code users} and {@code passwords}
      */
     public StringPeerDAO(String users, String passwords, String delimiter) {
         Preconditions.checkNotNull(users, "String containing users must not be null");
