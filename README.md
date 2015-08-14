@@ -27,14 +27,16 @@ import com.washingtonpost.dw.auth.AllowedPeerConfiguration;
 
 public class MyAppConfiguration extends Configuration {
 
+    private AllowedPeerConfiguration allowedPeers = new AllowedPeerConfiguration();
+
     @JsonProperty("allowedPeers")
     public AllowedPeerConfiguration getAllowedPeers() {
-        return allowedPeers;
+        return this.allowedPeers;
     }
 
     @JsonProperty("allowedPeers")
-    public void setAllowedPeers(AllowedPeerConfiguration allowedPeer) {
-        this.allowedPeers = allowedPeer;
+    public void setAllowedPeers(AllowedPeerConfiguration allowedPeers) {
+        this.allowedPeers = allowedPeers;
     }
 ```
 
@@ -50,6 +52,9 @@ public class MyApplication extends Application<MyConfiguration> {
 Finally, protect whatever resource endpoints you need with the Dropwizard @Auth annotation, like so:
 
 ```java
+import io.dropwizard.auth.Auth;
+import com.washingtonpost.dw.auth.model.Peer;
+
 @Path("/api/stuff")
 @Produces(MediaType.APPLICATION_JSON)
 public class MyResource {
