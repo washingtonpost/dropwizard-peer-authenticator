@@ -1,8 +1,9 @@
 # Release notes for dropwizard-peer-authenticator
 
-## 1.0.2 Release Date TBD
+## 1.0.2 Release Date 2015/08/25
 
 * Switched to the MIT License
+* Repackaged groupId to com.washingtonpost.dropwizard
 
 ## 1.0.1 Release Date 2015/08/21
 
