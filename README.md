@@ -5,6 +5,16 @@ This artifact provides a Dropwizard Configuration/Factory class that enables con
 
 A "Peer" object is a (username, password) POJO that models a remote service or user invoking some endpoint in your Dropwizard service.  The AllowedPeerAuthenticator loads a list of allowed peers from some source and then registers itself with Jersey to provide endpoint-level authentication on top of HTTP BasicAuth.
 
+## Maven dependency
+Check [./RELEASE_NOTES.md](./RELEASE_NOTES.md) for the latest/best version for your needs, and add this to your pom:
+```
+<dependency>
+    <groupId>com.washingtonpost.dropwizard</groupId>
+    <artifactId>dropwizard-peer-authenticator</artifactId>
+    <version>1.0.2</version>
+</dependency>
+```
+
 ## Example configuration : peer file
 
 Add a file like "allowed-peers.properties" to your classpath with a list of users and passwords that should be allowed to invoke endpoints on your service.  For example:
