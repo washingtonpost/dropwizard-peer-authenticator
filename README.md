@@ -110,6 +110,5 @@ allowedPeers:
 
 # TODO/Notes
 
-* get this maven parented under the oss/sonatype parent so we can distribute it to maven central
 * add checkstyle & better maven site generation
 * support Chained Factories?
