@@ -6,10 +6,12 @@ import com.google.common.cache.CacheBuilderSpec;
 import com.washingtonpost.dw.auth.dao.FlatFilePeerDAO;
 import com.washingtonpost.dw.auth.dao.StringPeerDAO;
 import com.washingtonpost.dw.auth.model.Peer;
-import io.dropwizard.auth.AuthFactory;
+import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.Authenticator;
+import io.dropwizard.auth.Authorizer;
 import io.dropwizard.auth.CachingAuthenticator;
-import io.dropwizard.auth.basic.BasicAuthFactory;
+import io.dropwizard.auth.PermitAllAuthorizer;
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.auth.basic.BasicCredentials;
 import io.dropwizard.setup.Environment;
 import java.io.InputStream;
@@ -178,10 +180,20 @@ public class AllowedPeerConfiguration {
     }
 
     /**
-     * This method registers the authenticator configured in this Configuration class with Jersey.
+     * This method registers the authenticator configured in this Configuration class with Jersey with a PermitAllAuthorizer
      * @param environment A DropWizard environment
      */
     public void registerAuthenticator(Environment environment) {
+        registerAuthenticator(environment, new PermitAllAuthorizer());
+    }
+
+    /**
+     *
+     * @param environment The Dropwizard environment
+     * @param authorizer A specific authorizer to use instead of the default PermitAllAuthorizer.  See
+     * http://www.dropwizard.io/0.9.1/docs/manual/auth.html for more details
+     */
+    public void registerAuthenticator(Environment environment, Authorizer authorizer) {
         Preconditions.checkNotNull(environment, "Illegal call to registerAuthenticator with a null Environment object");
         Authenticator<BasicCredentials, Peer> authenticator;
         if (this.cachePolicy != null) {
@@ -190,6 +202,11 @@ public class AllowedPeerConfiguration {
         else {
             authenticator = createAuthenticator();
         }
-        environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<Peer>(authenticator, this.realm, Peer.class)));
+        environment.jersey().register(new AuthDynamicFeature(
+            new BasicCredentialAuthFilter.Builder<Peer>()
+                .setAuthenticator(authenticator)
+                .setAuthorizer(authorizer)
+                .setRealm(this.realm)
+                .buildAuthFilter()));
     }
 }

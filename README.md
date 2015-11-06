@@ -11,9 +11,11 @@ Check [./RELEASE_NOTES.md](./RELEASE_NOTES.md) for the latest/best version for y
 <dependency>
     <groupId>com.washingtonpost.dropwizard</groupId>
     <artifactId>dropwizard-peer-authenticator</artifactId>
-    <version>1.0.2</version>
+    <version>2.0.0</version>
 </dependency>
 ```
+
+In general, the 1.x.y versions are compatible with Dropwizard-0.8.1 while the 2.x.y versions are compatible with Dropwizard-0.9.1
 
 ## Example configuration : peer file
 

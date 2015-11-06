@@ -1,11 +1,13 @@
 package com.washingtonpost.dw.auth.model;
 
 import java.util.Objects;
+import java.security.Principal;
+
 
 /**
  * <p>Models a remote caller of this service</p>
  */
-public class Peer {
+public class Peer implements Principal {
     private final String username;
     private final String password;
 
@@ -43,5 +45,10 @@ public class Peer {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return this.username;
     }
 }
