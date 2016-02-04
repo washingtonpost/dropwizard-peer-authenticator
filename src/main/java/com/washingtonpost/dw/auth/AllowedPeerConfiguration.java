@@ -2,6 +2,7 @@ package com.washingtonpost.dw.auth;
 
 import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilderSpec;
 import com.washingtonpost.dw.auth.dao.FlatFilePeerDAO;
 import com.washingtonpost.dw.auth.dao.StringPeerDAO;
@@ -15,7 +16,6 @@ import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.auth.basic.BasicCredentials;
 import io.dropwizard.setup.Environment;
 import java.io.InputStream;
-import jersey.repackaged.com.google.common.base.Preconditions;
 
 /**
  * <p>Container for configuration, in the "config + factory" pattern that DropWizard likes</p>
@@ -152,7 +152,7 @@ public class AllowedPeerConfiguration {
      * <p>If a credentialFile is provided, this method will use that file to populate the list of Peers the Authenticator
      * checks during request processing.  If instead the "users" and "passwords" Strings are provided, this method will use
      * those to populate the list of Peers.</p>
-     * @return An Authenticator appropriate for registering with Jersey as described 
+     * @return An Authenticator appropriate for registering with Jersey as described
      * https://dropwizard.github.io/dropwizard/manual/auth.html
      */
     public Authenticator<BasicCredentials, Peer> createAuthenticator() {

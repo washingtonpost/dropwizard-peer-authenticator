@@ -1,8 +1,8 @@
 # Release notes for dropwizard-peer-authenticator
 
-## 2.0.0 Release Date 2015/11/06
+## 2.0.0 Release Date 2016/02/04
 
-* Upgrading to Dropwizard-0.9.1
+* Upgrading to Dropwizard-0.9.2
 
 ## 1.0.2 Release Date 2015/08/25
 

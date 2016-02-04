@@ -1,9 +1,9 @@
 package com.washingtonpost.dw.auth.dao;
 
+import com.google.common.base.Preconditions;
 import com.washingtonpost.dw.auth.model.Peer;
 import java.util.Collection;
 import java.util.HashSet;
-import jersey.repackaged.com.google.common.base.Preconditions;
 
 /**
  * <p>A simple implementation of a PeerDAO that assumes two strings contains a list of users and passwords in corresponding
@@ -15,7 +15,7 @@ import jersey.repackaged.com.google.common.base.Preconditions;
  */
 public class StringPeerDAO implements PeerDAO {
 
-    public final static String DEFAULT_DELIMITER = ";";
+    public static final String DEFAULT_DELIMITER = ";";
     private final Collection<Peer> peers;
 
 
@@ -37,7 +37,9 @@ public class StringPeerDAO implements PeerDAO {
         peers = new HashSet<>();
         for (int i=0; i<userArray.length; i++) {
             peers.add(new Peer(userArray[i], passArray[i]));
+            //CHECKSTYLE_OFF: RegexpSinglelineJava
             System.out.println("Added peer " + userArray[i] + " with password " + passArray[i]);
+            //CHECKSTYLE_ON: RegexpSinglelineJava
         }
     }
 
