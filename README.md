@@ -124,4 +124,3 @@ allowedPeers:
 
 * add checkstyle & better maven site generation
 * support Chained Factories?
-* support the Authorizer interface in the creation of the `new AuthDynamicFeature`... right now this is 100% authenticator

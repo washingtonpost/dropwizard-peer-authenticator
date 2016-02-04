@@ -8,6 +8,7 @@ import com.washingtonpost.dw.auth.dao.FlatFilePeerDAO;
 import com.washingtonpost.dw.auth.dao.StringPeerDAO;
 import com.washingtonpost.dw.auth.model.Peer;
 import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.Authorizer;
 import io.dropwizard.auth.CachingAuthenticator;
@@ -16,6 +17,7 @@ import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.auth.basic.BasicCredentials;
 import io.dropwizard.setup.Environment;
 import java.io.InputStream;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 /**
  * <p>Container for configuration, in the "config + factory" pattern that DropWizard likes</p>
@@ -208,5 +210,7 @@ public class AllowedPeerConfiguration {
                 .setAuthorizer(authorizer)
                 .setRealm(this.realm)
                 .buildAuthFilter()));
+        environment.jersey().register(RolesAllowedDynamicFeature.class);
+        environment.jersey().register(new AuthValueFactoryProvider.Binder<>(Peer.class));
     }
 }
