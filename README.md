@@ -1,7 +1,7 @@
 # dropwizard-peer-authenticator
 Dropwizard module to enable BasicAuth security around a service with convenience factories for reading in lists of (users, passwords) who are authorized to make requests of your service.
 
-This artifact provides a Dropwizard Configuration/Factory class that enables convenient registration of an authorization filter with a Dropwizard Jersey Server.  This artifact is essentially a configuration wrapper around the documentation provided at https://dropwizard.github.io/dropwizard/manual/auth.html
+This artifact provides a Dropwizard Configuration/Factory class that enables convenient registration of an authorization filter with a Dropwizard Jersey Server.  This artifact is essentially a configuration wrapper around the documentation provided at http://www.dropwizard.io/0.9.2/docs/manual/auth.html
 
 A "Peer" object is a (username, password) POJO that models a remote service or user invoking some endpoint in your Dropwizard service.  The AllowedPeerAuthenticator loads a list of allowed peers from some source and then registers itself with Jersey to provide endpoint-level authentication on top of HTTP BasicAuth.
 
@@ -15,7 +15,7 @@ Check [./RELEASE_NOTES.md](./RELEASE_NOTES.md) for the latest/best version for y
 </dependency>
 ```
 
-In general, the 1.x.y versions are compatible with Dropwizard-0.8.1 while the 2.x.y versions are compatible with Dropwizard-0.9.1
+In general, the 1.x.y versions are compatible with Dropwizard-0.8.1 while the 2.x.y versions are compatible with Dropwizard-0.9.2
 
 ## Example configuration : peer file
 
@@ -101,7 +101,7 @@ If you use this configuration option, you must provide an equal number of userna
 
 ## Caching
 
-As mentioned in https://dropwizard.github.io/dropwizard/manual/auth.html, caching may be an important concern if the backing stores for the authenticators is not capable of high throughput (this isn't really a concern for our flat file or strings, but caching support is provided for future extensibility).  If you provide a "cachePolicy" configuration option, the Authenticator that is registered with Jersey will be of the type CachingAuthenticator.  For example:
+As mentioned in http://www.dropwizard.io/0.9.2/docs/manual/auth.html, caching may be an important concern if the backing stores for the authenticators is not capable of high throughput (this isn't really a concern for our flat file or strings, but caching support is provided for future extensibility).  If you provide a "cachePolicy" configuration option, the Authenticator that is registered with Jersey will be of the type CachingAuthenticator.  For example:
 
 ```yaml
 allowedPeers: 
@@ -124,3 +124,4 @@ allowedPeers:
 
 * add checkstyle & better maven site generation
 * support Chained Factories?
+* support the Authorizer interface in the creation of the `new AuthDynamicFeature`... right now this is 100% authenticator

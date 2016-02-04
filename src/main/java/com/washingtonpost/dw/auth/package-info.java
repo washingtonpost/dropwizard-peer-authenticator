@@ -1,4 +1,4 @@
-package com.washingtonpost.arc.auth.service.peer;
+package com.washingtonpost.dw.auth;
 
 /**
  * <p>This package provides a stand-alone implementation of a DropWizard Authenticator interface that our principle REST service
