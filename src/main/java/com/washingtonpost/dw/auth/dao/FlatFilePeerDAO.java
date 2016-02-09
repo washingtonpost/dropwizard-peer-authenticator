@@ -1,11 +1,13 @@
 package com.washingtonpost.dw.auth.dao;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
+import com.washingtonpost.dw.auth.encryptor.JasyptEncryptor;
 import com.washingtonpost.dw.auth.model.Peer;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.Properties;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +20,7 @@ import org.slf4j.LoggerFactory;
  */
 public class FlatFilePeerDAO implements PeerDAO {
 
-    private static final Logger logger = LoggerFactory.getLogger(FlatFilePeerDAO.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlatFilePeerDAO.class);
     private final Properties allowedPeers;
 
     /**
@@ -32,7 +34,7 @@ public class FlatFilePeerDAO implements PeerDAO {
             inputStream.close();
         }
         catch (IOException ioe) {
-            logger.error("Could not load allowed peers into a Properties object", ioe);
+            LOGGER.error("Could not load allowed peers into a Properties object", ioe);
             throw new RuntimeException("This application requires a classpath-accessible file configured under the "
                     + "allowedPeers.credentialFile property to load the allowed requestors of this service.  No such file "
                     + "could be loaded.", ioe);
@@ -40,13 +42,20 @@ public class FlatFilePeerDAO implements PeerDAO {
     }
 
     /**
-     * @return A Collection of all the allowed Peers.
+     * @return A Collection of all the allowed Peers.  Note that while the source data may include encrypted passwords
+     * wrapped in an "ENC(...)" string to indicate to humans that the password is encrypted, this implementation strips off
+     * that ENC(...) wrapper to enable a simplify password-comparison logic.
      */
     @Override
-    public Collection<Peer> findAll() {
-        Collection<Peer> peers = Sets.newLinkedHashSetWithExpectedSize(this.allowedPeers.size());
+    public Set<Peer> findAll() {
+        Set<Peer> peers = Sets.newLinkedHashSetWithExpectedSize(this.allowedPeers.size());
         allowedPeers.entrySet().stream().forEach((entrySet) -> {
-            peers.add(new Peer((String)entrySet.getKey(), (String)entrySet.getValue()));
+            String username = (String)entrySet.getKey();
+            Preconditions.checkState(nameIsUnique(peers, username), "Can't have 2 identical usernames");
+
+            String password = JasyptEncryptor.getEncryptedPart((String)entrySet.getValue());
+
+            peers.add(new Peer(username, password));
         });
         return peers;
     }

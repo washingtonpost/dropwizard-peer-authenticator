@@ -1,5 +1,9 @@
 # Release notes for dropwizard-peer-authenticator
 
+## 2.1.0 Release Date TBD
+
+* Adding JASYPT encryption of the allowed-peers.properties content
+
 ## 2.0.0 Release Date 2016/02/04
 
 * Upgrading to Dropwizard-0.9.2

@@ -25,7 +25,19 @@ public class TestAllowedPeerConfiguration {
         assertTrue(authenticator.authenticate(new BasicCredentials("foo", "bar")).isPresent());
         assertFalse(authenticator.authenticate(new BasicCredentials("not in", "our test properties")).isPresent());
     }
-    
+
+    @Test
+    public void testCreateAuthenticatorWithBasicEncryptedCredentialFile() throws AuthenticationException {
+        AllowedPeerConfiguration config = new AllowedPeerConfiguration();
+        config.setCredentialFile("peers/test-peers-encrypted-basic.properties");
+        config.setEncryptor(AllowedPeerConfiguration.Encryptor.BASIC);
+
+        Authenticator<BasicCredentials, Peer> authenticator = config.createAuthenticator();
+        assertTrue(authenticator.authenticate(new BasicCredentials("foo", "bar")).isPresent());
+        assertFalse(authenticator.authenticate(new BasicCredentials("not in", "our test properties")).isPresent());
+        assertFalse(authenticator.authenticate(new BasicCredentials("foo", "wrong password")).isPresent());
+    }
+
     @Test
     public void testCreateAuthenticatorWithStrings() throws AuthenticationException {
         AllowedPeerConfiguration config = new AllowedPeerConfiguration();
@@ -50,7 +62,7 @@ public class TestAllowedPeerConfiguration {
         config.setCredentialFile("peers/test-peers.properties");
         config.setCachePolicy(CacheBuilderSpec.parse("maximumSize=100, expireAfterAccess=10m"));
 
-        CachingAuthenticator<BasicCredentials, Peer> cachingAuthenticator = 
+        CachingAuthenticator<BasicCredentials, Peer> cachingAuthenticator =
                 config.createCachingAuthenticator(new MetricRegistry());
         assertTrue(cachingAuthenticator.authenticate(new BasicCredentials("foo", "bar")).isPresent());
     }
