@@ -51,4 +51,12 @@ public class Peer implements Principal {
     public String getName() {
         return this.username;
     }
+
+    /**
+     * This is exposed to support a Jasypt-like check of plaintext-vs-encrypted password
+     * @return the password of this peer
+     */
+    public String getPassword() {
+        return this.password;
+    }
 }

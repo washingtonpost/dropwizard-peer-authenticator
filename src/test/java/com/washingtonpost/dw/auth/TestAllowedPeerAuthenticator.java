@@ -1,12 +1,12 @@
 package com.washingtonpost.dw.auth;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.washingtonpost.dw.auth.dao.PeerDAO;
 import com.washingtonpost.dw.auth.model.Peer;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.basic.BasicCredentials;
-import java.util.Collection;
+import java.util.Set;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -19,7 +19,7 @@ import org.junit.Test;
  */
 public class TestAllowedPeerAuthenticator {
 
-    private final Collection<Peer> allPeers = ImmutableList.of(new Peer("foo", "secret1"), new Peer("bar", "secret2"));
+    private final Set<Peer> allPeers = ImmutableSet.of(new Peer("foo", "secret1"), new Peer("bar", "secret2"));
     private PeerDAO peerDAO;
     private AllowedPeerAuthenticator authenticator;
 
@@ -29,7 +29,7 @@ public class TestAllowedPeerAuthenticator {
         expect(peerDAO.findAll()).andReturn(allPeers).anyTimes();
         replay(peerDAO);
 
-        authenticator = new AllowedPeerAuthenticator(peerDAO);
+        authenticator = new AllowedPeerAuthenticator(peerDAO, null);
     }
 
     @Test

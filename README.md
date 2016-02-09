@@ -3,7 +3,7 @@ Dropwizard module to enable BasicAuth security around a service with convenience
 
 This artifact provides a Dropwizard Configuration/Factory class that enables convenient registration of an authorization filter with a Dropwizard Jersey Server.  This artifact is essentially a configuration wrapper around the documentation provided at http://www.dropwizard.io/0.9.2/docs/manual/auth.html
 
-A "Peer" object is a (username, password) POJO that models a remote service or user invoking some endpoint in your Dropwizard service.  The AllowedPeerAuthenticator loads a list of allowed peers from some source and then registers itself with Jersey to provide endpoint-level authentication on top of HTTP BasicAuth.
+A "Peer" object is a (username, password) POJO that models a remote service or user invoking some endpoint in your Dropwizard service.  The AllowedPeerAuthenticator loads a list of allowed peers from some source and then registers itself with Jersey to provide endpoint-level authentication on top of HTTP BasicAuth.  Because this is just a BasicAuth authenticator, your DW service should only be accessed over HTTPS.
 
 ## Maven dependency
 Check [./RELEASE_NOTES.md](./RELEASE_NOTES.md) for the latest/best version for your needs, and add this to your pom:
@@ -11,11 +11,11 @@ Check [./RELEASE_NOTES.md](./RELEASE_NOTES.md) for the latest/best version for y
 <dependency>
     <groupId>com.washingtonpost.dropwizard</groupId>
     <artifactId>dropwizard-peer-authenticator</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0-SNAPSHOT</version>
 </dependency>
 ```
 
-In general, the 1.x.y versions are compatible with Dropwizard-0.8.1 while the 2.x.y versions are compatible with Dropwizard-0.9.2
+In general, the 1.x.y versions are compatible with Dropwizard-0.8-X while the 2.x.y versions are compatible with Dropwizard-0.9.X
 
 ## Example configuration : peer file
 
@@ -118,6 +118,43 @@ allowedPeers:
     cachePolicy: maximumSize=100, expireAfterAccess=10m
     realm: SUPER SECRET STUFF
 ```
+
+
+## Encrypting Passwords
+
+To avoid plain-text passwords in your allowed-peers.properties file, this module enables you to specify a simple {"NONE", "BASIC" or "STRONG"} encryption policy on the supplied passwords which correspond to none, Basic or Strong PasswordEncryptors from the excellent http://www.jasypt.org/ project.  For value "NONE" it's assumed the allowed-peers.properties contains plaintext passwords and requests to the running service have unencrypted passwords in their BasicAuth header.  If a "BASIC" or "STRONG" encryptor configuration is provided, then it's assumed the passwords in allowed-peers.properties are encrypted with the Jasypt PasswordEncryptor and that the BasicAuth passwords are _unencrypted_ but will be encrypted using the same encryptor before being compared against the encrypted allowed-peers.properties value.
+
+For example, to enable encrypting of the passwords in your allowed-peers.properties file with Jasypt's BasicPasswordEncryptor, add this configuration to your Dropwizard YAML configuration file:
+
+```yaml
+allowedPeers:
+    credentialFile: allowed-peers.properties
+    encryptor: BASIC
+```
+
+Then encrypt the password in your `allowed-peers.properties` files using a `main` class shipped in this JAR:
+```
+git clone git@github.com:washingtonpost/dropwizard-peer-authenticator.git
+mvn clean install -Pexecutable-jar
+
+java -cp target/dropwizard-peer-authenticator-*-SNAPSHOT.jar com.washingtonpost.dw.auth.encryptor.JasyptEncryptor -type BASIC -password
+The secret to encrypt: <mySecret>
+ENC(LrAsd3MBh/grqOMIMdtO1UQ0Mavz+U1s)
+
+## or, for stronger/slightly slower security use the "STRONG" type
+## just make sure your YAML file declares the same allowedPeers.encryptor type as you used when encrypting your passwords
+java -cp target/dropwizard-peer-authenticator-*-SNAPSHOT.jar com.washingtonpost.dw.auth.encryptor.JasyptEncryptor -type STRONG -password
+The secret to encrypt: <mySecret>
+ENC(1XuMDHrI3yxbX5dMngRMn6n2RUD3XiAjr1hRdlkLzsBUWaVifl9GBd6q/cokEUt6)
+```
+
+Use the encrypted password in your allowed-peers.properties file, e.g.:
+
+```yaml
+alice=ENC(LrAsd3MBh/grqOMIMdtO1UQ0Mavz+U1s)
+```
+
+Then any BasicAuth requests made against a service protected with this allowed-peers module should pass "alice:mySecret" as the username and password which will authenticate against the encrypted, in-memory "alice:LrAsd3MBh/grqOMIMdtO1UQ0Mavz+U1s" value.
 
 
 # TODO/Notes

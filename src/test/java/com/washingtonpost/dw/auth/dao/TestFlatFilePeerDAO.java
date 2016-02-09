@@ -15,7 +15,7 @@ public class TestFlatFilePeerDAO {
     @Test
     public void testFetchAll() throws IOException {
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("peers/test-peers.properties");
-        
+
         PeerDAO dao = new FlatFilePeerDAO(inputStream);
         Collection<Peer> allPeers = dao.findAll();
         assertTrue(allPeers.size() == 2);

@@ -10,7 +10,7 @@
     
     <groupId>com.washingtonpost.dropwizard</groupId>
     <artifactId>dropwizard-peer-authenticator</artifactId>
-    <version>2.0.2-SNAPSHOT</version>
+    <version>2.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>dropwizard-peer-authenticator</name>
     <description>Dropwizard Authenticator that uses BasicAuth (user,pass) pairs to control access to your service</description>
@@ -18,14 +18,17 @@
     <scm>
         <connection>scm:git:git@github.com:washingtonpost/dropwizard-peer-authenticator.git</connection>
         <developerConnection>scm:git:git@github.com:washingtonpost/dropwizard-peer-authenticator.git</developerConnection>
-        <tag>2.0.1-SNAPSHOT</tag>
+        <tag>HEAD</tag>
         <url>http://github.com:washingtonpost/dropwizard-peer-authenticator</url>
     </scm>
     
     <properties>
-        <version.guava>18.0</version.guava>
-        <version.slf4j>1.7.12</version.slf4j>
         <version.dropwizard>0.9.2</version.dropwizard>
+        <version.guava>18.0</version.guava>
+        <version.jasypt>1.9.2</version.jasypt>
+        <version.jcommander>1.48</version.jcommander>
+        <version.maven.shade>2.4.2</version.maven.shade>
+        <version.slf4j>1.7.12</version.slf4j>
     </properties>
     
     <dependencies>
@@ -43,6 +46,16 @@
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-auth</artifactId>
             <version>${version.dropwizard}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>${version.jasypt}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+            <version>${version.jcommander}</version>
         </dependency>
 
         <!-- TEST Scoped Dependencies -->
@@ -72,4 +85,53 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <!--
+            Don't use this profile when deploying JARs to Nexus; this is only useful for localhost secret encryption workflows
+            -->
+            <id>executable-jar</id>
+            <build>
+                <plugins>
+                   <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>${version.maven.shade}</version>
+                        <configuration>
+                            <createDependencyReducedPom>true</createDependencyReducedPom>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <transformers>
+                                        <transformer
+                                            implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                        <transformer
+                                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                            <mainClass>com.washingtonpost.dw.auth.encryptor.JasyptEncryptor</mainClass>
+                                        </transformer>
+                                    </transformers>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

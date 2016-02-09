@@ -24,4 +24,10 @@ public class TestStringPeerDAO {
         assertTrue(peers.contains(new Peer("nancy", "SFH(@*FH@*(@HF@F")));
         assertTrue(peers.contains(new Peer("frank", " ")));
     }
+
+    @Test(expected=IllegalStateException.class)
+    public void testMultipleIdenticalUsernamesThrowsException() {
+        PeerDAO dao = new StringPeerDAO("bob;alice;bob", "1;2;3");
+        Collection<Peer> peers = dao.findAll();
+    }
 }
