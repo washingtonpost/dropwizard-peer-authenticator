@@ -23,12 +23,12 @@
     </scm>
     
     <properties>
-        <version.dropwizard>0.9.2</version.dropwizard>
-        <version.guava>18.0</version.guava>
+        <version.dropwizard>1.0.0</version.dropwizard>
+        <version.guava>19.0</version.guava>
         <version.jasypt>1.9.2</version.jasypt>
         <version.jcommander>1.48</version.jcommander>
         <version.maven.shade>2.4.2</version.maven.shade>
-        <version.slf4j>1.7.12</version.slf4j>
+        <version.slf4j>1.7.21</version.slf4j>
     </properties>
     
     <dependencies>

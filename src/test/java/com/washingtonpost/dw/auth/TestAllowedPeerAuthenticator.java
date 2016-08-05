@@ -1,11 +1,11 @@
 package com.washingtonpost.dw.auth;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.washingtonpost.dw.auth.dao.PeerDAO;
 import com.washingtonpost.dw.auth.model.Peer;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.basic.BasicCredentials;
+import java.util.Optional;
 import java.util.Set;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
