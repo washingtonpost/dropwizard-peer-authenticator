@@ -11,7 +11,7 @@
     
     <groupId>com.washingtonpost.dropwizard</groupId>
     <artifactId>dropwizard-peer-authenticator</artifactId>
-    <version>3.0.0.upside-SNAPSHOT</version>
+    <version>3.0.0.upside</version>
     <packaging>jar</packaging>
     <name>dropwizard-peer-authenticator</name>
     <description>Dropwizard Authenticator that uses BasicAuth (user,pass) pairs to control access to your service</description>
@@ -19,7 +19,7 @@
     <scm>
         <connection>scm:git:git@github.com:upside-services/dropwizard-peer-authenticator.git</connection>
         <developerConnection>scm:git:git@github.com:upside-services/dropwizard-peer-authenticator.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>3.0.0.upside</tag>
         <url>http://github.com:upside-services/dropwizard-peer-authenticator</url>
     </scm>
     
