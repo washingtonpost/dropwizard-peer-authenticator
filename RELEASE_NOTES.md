@@ -1,6 +1,10 @@
 # Release notes for dropwizard-peer-authenticator
 
-## 2.1.0 Release Date TBD
+## 3.0.0 Release Date 2016/12/xx
+
+* Supporting Dropwizard-1.0.5; this is a effectively a small change from returning Guava Optionals to java.util.Optional
+
+## 2.1.0 Release Date 2016/02/09
 
 * Adding JASYPT encryption of the allowed-peers.properties content
 

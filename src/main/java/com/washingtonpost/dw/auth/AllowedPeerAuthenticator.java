@@ -1,6 +1,5 @@
 package com.washingtonpost.dw.auth;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSet;
 import com.washingtonpost.dw.auth.dao.PeerDAO;
@@ -8,6 +7,7 @@ import com.washingtonpost.dw.auth.model.Peer;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.basic.BasicCredentials;
+import java.util.Optional;
 import java.util.Set;
 import org.jasypt.util.password.PasswordEncryptor;
 import org.slf4j.Logger;
@@ -28,6 +28,7 @@ public class AllowedPeerAuthenticator implements Authenticator<BasicCredentials,
         this.passwordEncryptor = passwordEncryptor;
         LOGGER.info("Constructed Authenticator with {} allowed peers", this.allPeers.size());
     }
+
 
     @Override
     public Optional<Peer> authenticate(BasicCredentials credentials) throws AuthenticationException {
@@ -53,7 +54,7 @@ public class AllowedPeerAuthenticator implements Authenticator<BasicCredentials,
         else {
             LOGGER.debug("{} is not known in our list of allowed peers", credentials.getUsername());
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     /*
@@ -67,7 +68,7 @@ public class AllowedPeerAuthenticator implements Authenticator<BasicCredentials,
 
         if (peers.isEmpty()) {
             LOGGER.debug("No peer named {} found in our allowed-peers file", credentials.getUsername());
-            return Optional.absent();
+            return Optional.empty();
         }
         else {
             Peer peer = peers.stream().findFirst().get();
@@ -77,7 +78,7 @@ public class AllowedPeerAuthenticator implements Authenticator<BasicCredentials,
             }
             else {
                 LOGGER.debug("{} is not known in our list of allowed peers", credentials.getUsername());
-                return Optional.absent();
+                return Optional.empty();
             }
         }
     }
