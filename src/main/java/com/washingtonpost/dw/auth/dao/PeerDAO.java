@@ -20,7 +20,7 @@ public interface PeerDAO {
      * @param username A username to check for existence in {@code peers}
      * @return True, if {@code username} does not appear in {@code peers}, false otherwise
      */
-    default public boolean nameIsUnique(Set<Peer> peers, String username) {
+    default boolean nameIsUnique(Set<Peer> peers, String username) {
         return peers.stream().noneMatch((peer) -> (peer.getName().equals(username)));
     }
 }

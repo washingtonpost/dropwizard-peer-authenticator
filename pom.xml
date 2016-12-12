@@ -3,32 +3,33 @@
     <modelVersion>4.0.0</modelVersion>
     
     <parent>
-        <groupId>com.washingtonpost</groupId>
-        <artifactId>wp-oss-parent-pom</artifactId>
-        <version>0.0.8</version>
+        <groupId>com.upside</groupId>
+        <artifactId>upside-parent-pom</artifactId>
+        <version>0.0.1</version>
     </parent>
+
     
     <groupId>com.washingtonpost.dropwizard</groupId>
     <artifactId>dropwizard-peer-authenticator</artifactId>
-    <version>2.1.1-SNAPSHOT</version>
+    <version>3.0.1.upside-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>dropwizard-peer-authenticator</name>
     <description>Dropwizard Authenticator that uses BasicAuth (user,pass) pairs to control access to your service</description>
     
     <scm>
-        <connection>scm:git:git@github.com:washingtonpost/dropwizard-peer-authenticator.git</connection>
-        <developerConnection>scm:git:git@github.com:washingtonpost/dropwizard-peer-authenticator.git</developerConnection>
+        <connection>scm:git:git@github.com:upside-services/dropwizard-peer-authenticator.git</connection>
+        <developerConnection>scm:git:git@github.com:upside-services/dropwizard-peer-authenticator.git</developerConnection>
         <tag>HEAD</tag>
-        <url>http://github.com:washingtonpost/dropwizard-peer-authenticator</url>
+        <url>http://github.com:upside-services/dropwizard-peer-authenticator</url>
     </scm>
     
     <properties>
-        <version.dropwizard>0.9.2</version.dropwizard>
-        <version.guava>18.0</version.guava>
+        <version.dropwizard>1.0.5</version.dropwizard>
+        <version.guava>20.0</version.guava>
         <version.jasypt>1.9.2</version.jasypt>
         <version.jcommander>1.48</version.jcommander>
         <version.maven.shade>2.4.2</version.maven.shade>
-        <version.slf4j>1.7.12</version.slf4j>
+        <version.slf4j>1.7.13</version.slf4j>
     </properties>
     
     <dependencies>
