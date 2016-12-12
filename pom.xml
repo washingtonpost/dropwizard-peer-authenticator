@@ -3,24 +3,23 @@
     <modelVersion>4.0.0</modelVersion>
     
     <parent>
-        <groupId>com.upside</groupId>
-        <artifactId>upside-parent-pom</artifactId>
-        <version>0.0.1</version>
+        <groupId>com.washingtonpost</groupId>
+        <artifactId>wp-oss-parent-pom</artifactId>
+        <version>0.0.8</version>
     </parent>
-
     
     <groupId>com.washingtonpost.dropwizard</groupId>
     <artifactId>dropwizard-peer-authenticator</artifactId>
-    <version>3.0.1.upside-SNAPSHOT</version>
+    <version>3.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>dropwizard-peer-authenticator</name>
     <description>Dropwizard Authenticator that uses BasicAuth (user,pass) pairs to control access to your service</description>
     
     <scm>
-        <connection>scm:git:git@github.com:upside-services/dropwizard-peer-authenticator.git</connection>
-        <developerConnection>scm:git:git@github.com:upside-services/dropwizard-peer-authenticator.git</developerConnection>
+        <connection>scm:git:git@github.com:washingtonpost/dropwizard-peer-authenticator.git</connection>
+        <developerConnection>scm:git:git@github.com:washingtonpost/dropwizard-peer-authenticator.git</developerConnection>
         <tag>HEAD</tag>
-        <url>http://github.com:upside-services/dropwizard-peer-authenticator</url>
+        <url>http://github.com:washingtonpost/dropwizard-peer-authenticator</url>
     </scm>
     
     <properties>
