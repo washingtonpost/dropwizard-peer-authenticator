@@ -1,6 +1,6 @@
 # Release notes for dropwizard-peer-authenticator
 
-## 3.0.0 Release Date 2016/12/xx
+## 3.0.1 Release Date 2016/12/12
 
 * Supporting Dropwizard-1.0.5; this is a effectively a small change from returning Guava Optionals to java.util.Optional
 
